@@ -1,0 +1,36 @@
+# Build directories
+build/
+CoopModEnabler/build/
+
+# Compiled object/library files
+*.o
+*.obj
+*.lib
+*.exp
+*.dll
+*.pdb
+*.ilk
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CMakeSettings.json
+.cmake/
+
+# IDE and Editor files
+.vs/
+.vscode/
+*.swp
+*~
+
+# Temporary files
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Reference materials
+reference/
+docs/
+
