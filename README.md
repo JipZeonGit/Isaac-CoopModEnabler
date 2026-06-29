@@ -1,16 +1,29 @@
-# Isaac-CoopModEnabler
+<h1 align="center">Isaac-CoopModEnabler</h1>
 
 <p align="center">
-  <a href="#-简体中文">简体中文</a> • 
-  <a href="#-繁體中文">繁體中文</a> • 
-  <a href="#-english">English</a>
+  <a href="#简体中文">简体中文</a> • 
+  <a href="#繁體中文">繁體中文</a> • 
+  <a href="#english">English</a>
+</p>
+
+<p align="center">
+  <b>An effortless proxy DLL hijacking solution to enable online co-op mods for Isaac (AB+ & REP+).</b>
 </p>
 
 ---
 
 ## 简体中文
 
-一个为《以撒的结合：悔忏》（The Binding of Isaac: Repentance）在线联机模式解除 Mod 限制的免 Hook、免修改主程序的 DLL 劫持方案。
+一个为《以撒的结合》（AB+ & REP+ 版本）在线联机模式解除 Mod 限制的免 Hook、免修改主程序的 DLL 劫持方案。
+
+### 📦 运行要求
+
+使用该 Mod 需要游戏处于以下版本，并安装启用对应的 DLC：
+- **以撒的结合：REP+ 版本**：需要拥有以下全部 4 个 DLC：
+  1. *The Binding of Isaac: Afterbirth*
+  2. *The Binding of Isaac: Afterbirth+* (AB+)
+  3. *The Binding of Isaac: Repentance* (REP)
+  4. *The Binding of Isaac: Repentance+* (REP+)
 
 ### 💡 工作原理
 
@@ -45,11 +58,27 @@
 - **Zig 编译器**：如果你有 Zig 编译器，可以直接运行 `CoopModEnabler/build_zig.bat`。它会利用 Zig CC 自动交叉编译生成 32 位 DLL。
 - **Visual Studio**：如果安装了 VS（包含 C++ 桌面开发组件），在 **x86 Native Tools Command Prompt** 终端中运行 `CoopModEnabler/build.bat`。
 
+### 🧹 仓库维护规范
+
+1. **导出函数一致性**：若修改了代理 DLL 的导出函数，须同步更新 `winmm.def` 文件，确保 178 个导出函数无缝转发，避免游戏启动崩溃。
+2. **构建验证**：提交代码前，请使用 `build_zig.bat` 或 `build.bat` 在本地进行 32 位（x86）编译测试，确保无编译错误。
+3. **内存地址模式匹配**：若游戏更新导致补丁失效，需使用特征码扫描（Pattern Scanning）工具重新定位限制联机和遥测的内存地址特征，切勿硬编码绝对内存地址。
+4. **版本发布**：若需要发布新版本，请在本地打上版本 Tag 并推送至 GitHub（例如 `git tag v1.x.x && git push origin v1.x.x`），Actions 会自动创建 Release 并上传产物。
+
 ---
 
 ## 繁體中文
 
-一個為《以撒的結合：悔懺》（The Binding of Isaac: Repentance）線上聯機模式解除 Mod 限制的免 Hook、免修改主程式的 DLL 劫持方案。
+一個為《以撒的結合》（AB+ & REP+ 版本）線上聯機模式解除 Mod 限制的免 Hook、免修改主程式的 DLL 劫持方案。
+
+### 📦 運行要求
+
+使用該 Mod 需要遊戲處於以下版本，並安裝啟用對應的 DLC：
+- **以撒的結合：REP+ 版本**：需要擁有以下全部 4 個 DLC：
+  1. *The Binding of Isaac: Afterbirth*
+  2. *The Binding of Isaac: Afterbirth+* (AB+)
+  3. *The Binding of Isaac: Repentance* (REP)
+  4. *The Binding of Isaac: Repentance+* (REP+)
 
 ### 💡 工作原理
 
@@ -84,11 +113,27 @@
 - **Zig 編譯器**：如果你有 Zig 編譯器，可以直接執行 `CoopModEnabler/build_zig.bat`。它會利用 Zig CC 自動交叉編譯生成 32 位 DLL。
 - **Visual Studio**：如果安裝了 VS（包含 C++ 桌面開發組件），在 **x86 Native Tools Command Prompt** 終端中執行 `CoopModEnabler/build.bat`。
 
+### 🧹 倉庫維護規範
+
+1. **導出函數一致性**：若修改了代理 DLL 的導出函數，須同步更新 `winmm.def` 檔案，確保 178 個導出函數無縫轉發，避免遊戲啟動崩潰。
+2. **建置驗證**：提交代碼前，請使用 `build_zig.bat` 或 `build.bat` 在本地進行 32 位（x86）編譯測試，確保無編譯錯誤。
+3. **記憶體位址模式匹配**：若遊戲更新導致補丁失效，需使用特徵碼掃描（Pattern Scanning）工具重新定位限制聯機和遙測的記憶體位址特徵，切勿寫死絕對記憶體位址。
+4. **版本發布**：若需要發布新版本，請在本地打上版本 Tag 並推送至 GitHub（例如 `git tag v1.x.x && git push origin v1.x.x`），Actions 會自動建立 Release 並上傳產物。
+
 ---
 
 ## English
 
-A proxy DLL hijacking solution for *The Binding of Isaac: Repentance* to enable mods in online co-op mode without hooks or modifying the main game executable.
+A proxy DLL hijacking solution for *The Binding of Isaac* (AB+ & REP+ versions) to enable mods in online co-op mode without hooks or modifying the main game executable.
+
+### 📦 Requirements
+
+This mod supports the **Afterbirth+ (AB+)** and **Repentance+ (REP+)** version of the game. The required DLC configurations are:
+- **For Repentance+ (REP+)**: Requires all 4 DLCs installed and enabled:
+  1. *The Binding of Isaac: Afterbirth*
+  2. *The Binding of Isaac: Afterbirth+* (AB+)
+  3. *The Binding of Isaac: Repentance* (REP)
+  4. *The Binding of Isaac: Repentance+* (REP+)
 
 ### 💡 How It Works
 
@@ -122,6 +167,13 @@ The project is configured for **GitHub Actions** out of the box, meaning you don
 #### Method B: Local Build (Compiler required)
 - **Zig Compiler**: If you have Zig installed, run `CoopModEnabler/build_zig.bat`. It will invoke `zig cc` to cross-compile the 32-bit DLL.
 - **Visual Studio**: If you have VS with C++ Desktop tools, run `CoopModEnabler/build.bat` from an **x86 Native Tools Command Prompt**.
+
+### 🧹 Repository Maintenance
+
+1. **Export Function Consistency**: If you modify the proxy DLL's exports, you must update the `winmm.def` file accordingly to ensure all 178 exported functions are seamlessly forwarded. This prevents the game from crashing on startup.
+2. **Build Verification**: Before committing code, run `build_zig.bat` or `build.bat` to perform a local 32-bit (x86) test compilation and check for errors.
+3. **Memory Pattern Matching**: If a game update breaks the patches, use pattern scanning to relocate the online-restriction and telemetry bytecode sequences in memory. Do not hardcode absolute memory addresses.
+4. **Releasing Versions**: To release a new version, create and push a git tag (e.g., `git tag v1.x.x && git push origin v1.x.x`). GitHub Actions will automatically create a Release and upload the built artifacts.
 
 ---
 
