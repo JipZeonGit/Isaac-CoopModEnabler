@@ -65,6 +65,10 @@
 3. **内存地址模式匹配**：若游戏更新导致补丁失效，需使用特征码扫描（Pattern Scanning）工具重新定位限制联机和遥测的内存地址特征，切勿硬编码绝对内存地址。
 4. **版本发布**：若需要发布新版本，请在本地打上版本 Tag 并推送至 GitHub（例如 `git tag v1.x.x && git push origin v1.x.x`），Actions 会自动创建 Release 并上传产物。
 
+### ❗ 已知问题
+1. 已测试 **EID** 可以在解除联机 Mod 限制下正常使用
+2. 由于游戏联机的特性，在解除联机 Mod 限制下使用其他模组极大概率出现崩溃，属于正常现象
+
 ---
 
 ## 繁體中文
@@ -120,6 +124,10 @@
 3. **記憶體位址模式匹配**：若遊戲更新導致補丁失效，需使用特徵碼掃描（Pattern Scanning）工具重新定位限制聯機和遙測的記憶體位址特徵，切勿寫死絕對記憶體位址。
 4. **版本發布**：若需要發布新版本，請在本地打上版本 Tag 並推送至 GitHub（例如 `git tag v1.x.x && git push origin v1.x.x`），Actions 會自動建立 Release 並上傳產物。
 
+### ❗ 已知問題
+1. 經測試 **EID** 可在解除連線 Mod 限制的情況下正常使用
+2. 基於遊戲連線本身的特性，解除連線 Mod 限制後使用其他模組極有機會發生崩潰，屬正常情況
+
 ---
 
 ## English
@@ -174,6 +182,10 @@ The project is configured for **GitHub Actions** out of the box, meaning you don
 2. **Build Verification**: Before committing code, run `build_zig.bat` or `build.bat` to perform a local 32-bit (x86) test compilation and check for errors.
 3. **Memory Pattern Matching**: If a game update breaks the patches, use pattern scanning to relocate the online-restriction and telemetry bytecode sequences in memory. Do not hardcode absolute memory addresses.
 4. **Releasing Versions**: To release a new version, create and push a git tag (e.g., `git tag v1.x.x && git push origin v1.x.x`). GitHub Actions will automatically create a Release and upload the built artifacts.
+
+### ❗ Known Issues
+1. It has been tested that **EID** works normally when the online mod restrictions are lifted.
+2. Due to the nature of online gameplay, using other mods while the online mod restrictions are lifted has a high chance of causing crashes, which is considered normal.
 
 ---
 
