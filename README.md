@@ -1,14 +1,74 @@
-<h1 align="center">Isaac-CoopModEnabler</h1>
+<h1 align="center">Isaac Coop Mod Enabler</h1>
 
 <p align="center">
+  <a href="#english">English</a> • 
   <a href="#简体中文">简体中文</a> • 
-  <a href="#繁體中文">繁體中文</a> • 
-  <a href="#english">English</a>
+  <a href="#繁體中文">繁體中文</a>
 </p>
 
 <p align="center">
   <b>An effortless proxy DLL hijacking solution to enable online co-op mods for Isaac (AB+ & REP+).</b>
 </p>
+
+---
+
+## English
+
+A proxy DLL hijacking solution for *The Binding of Isaac* (AB+ & REP+ versions) to enable mods in online co-op mode without hooks or modifying the main game executable.
+
+### 📦 Requirements
+
+This mod supports the **Afterbirth+ (AB+)** and **Repentance+ (REP+)** version of the game. The required DLC configurations are:
+- **For Repentance+ (REP+)**: Requires all 4 DLCs installed and enabled:
+  1. *The Binding of Isaac: Afterbirth*
+  2. *The Binding of Isaac: Afterbirth+* (AB+)
+  3. *The Binding of Isaac: Repentance* (REP)
+  4. *The Binding of Isaac: Repentance+* (REP+)
+
+### 💡 How It Works
+
+This project utilizes **Proxy DLL / DLL Hijacking** technique:
+
+1. **Automatic Loading**: Leverages the Windows DLL search order by placing `winmm.dll` in the game directory. The game will prioritize loading this local DLL over the system one at startup.
+2. **Seamless Forwarding**: Internally proxies and forwards all 178 exported functions of `winmm.dll` to the real system library (`C:\Windows\System32\winmm.dll`) using zero-overhead naked assembly jump (`naked asm`) trampolines, ensuring all game audio and multimedia features remain intact.
+3. **Memory Hot-patching**: On DLL initialization (`DllMain`), the proxy scans the `.text` segment of `isaac-ng.exe` in memory:
+   - **Bypassing Co-op Mod Restriction**: Searches for the bytecode sequence that restricts mod usage in online matches, replacing the three conditional jump (`JE`) instructions with `NOP`s, forcing the game to bypass mod checks.
+   - **Disabling Analytics**: Replaces the telemetry/analytics function entry instruction with a `RET`, skipping the data collection process.
+
+Since the modifications only occur in the process memory, **the original game file `isaac-ng.exe` remains untouched**. It doesn't trigger Steam file integrity checks and generally survives game updates.
+
+### 🚀 Installation and Usage
+
+1. **Get the DLL**: Download the pre-built 32-bit `winmm.dll` from the **Actions** artifacts or the **Releases** page of this repository (Make sure it is x86/32-bit, as Isaac is a 32-bit application).
+2. **Deploy**: Copy `winmm.dll` into your game directory (next to `isaac-ng.exe`).
+3. **Run**: Launch the game normally via Steam. The mod restriction is now automatically lifted.
+4. **Uninstall**: Delete `winmm.dll` from your game directory. The game will revert to vanilla instantly with no backup files needed.
+
+### 🛠️ Compilation and Building
+
+The project is configured for **GitHub Actions** out of the box, meaning you don't need to configure a local C/C++ 32-bit compiler toolchain.
+
+#### Method A: Build via GitHub Actions (Recommended)
+1. Push this repository to your personal GitHub account.
+2. The compilation workflow will trigger automatically on `windows-latest` using CMake and MSVC to produce the 32-bit x86 `winmm.dll`.
+3. Once completed, you can download `winmm-dll` from the **Artifacts** section at the bottom of the workflow run summary.
+4. Pushing a tag (e.g. `git tag v1.0.0` followed by `git push origin v1.0.0`) will automatically compile and release the DLL on GitHub Releases.
+
+#### Method B: Local Build (Compiler required)
+- **Zig Compiler**: If you have Zig installed, run `CoopModEnabler/build_zig.bat`. It will invoke `zig cc` to cross-compile the 32-bit DLL.
+- **Visual Studio**: If you have VS with C++ Desktop tools, run `CoopModEnabler/build.bat` from an **x86 Native Tools Command Prompt**.
+
+### 🧹 Repository Maintenance
+
+1. **Export Function Consistency**: If you modify the proxy DLL's exports, you must update the `winmm.def` file accordingly to ensure all 178 exported functions are seamlessly forwarded. This prevents the game from crashing on startup.
+2. **Build Verification**: Before committing code, run `build_zig.bat` or `build.bat` to perform a local 32-bit (x86) test compilation and check for errors.
+3. **Memory Pattern Matching**: If a game update breaks the patches, use pattern scanning to relocate the online-restriction and telemetry bytecode sequences in memory. Do not hardcode absolute memory addresses.
+4. **Releasing Versions**: To release a new version, create and push a git tag (e.g., `git tag v1.x.x && git push origin v1.x.x`). GitHub Actions will automatically create a Release and upload the built artifacts.
+
+### ❗ Known Issues
+1. **EID** has been tested and confirmed to work normally when online mod restrictions are lifted.
+2. Due to the nature of online gameplay, using other mods while online mod restrictions are bypassed may cause crashes, which is expected behavior.
+3. **Compatibility Warning**: The sole purpose of this mod is to bypass the restriction that disables mods in online co-op. It does *not* guarantee that other mods will function correctly or be compatible in online play.
 
 ---
 
@@ -67,7 +127,8 @@
 
 ### ❗ 已知问题
 1. 已测试 **EID** 可以在解除联机 Mod 限制下正常使用
-2. 由于游戏联机的特性，在解除联机 Mod 限制下使用其他模组极大概率出现崩溃，属于正常现象
+2. 由于游戏联机的特性，在解除联机 Mod 限制下使用其他模组有概率出现崩溃，属于正常现象
+3. **兼容性说明**：本模组的作用仅为绕过禁用联机 Mod 的限制，不对其他 Mod 本身是否能在联机模式中正常游玩及兼容作任何保证。
 
 ---
 
@@ -78,7 +139,7 @@
 ### 📦 運行要求
 
 使用該 Mod 需要遊戲處於以下版本，並安裝啟用對應的 DLC：
-- **以撒的結合：REP+ 版本**：需要擁有以下全部 4 個 DLC：
+- **以撒的結合：REP+ 版本**：起碼需要擁有以下全部 4 個 DLC：
   1. *The Binding of Isaac: Afterbirth*
   2. *The Binding of Isaac: Afterbirth+* (AB+)
   3. *The Binding of Isaac: Repentance* (REP)
@@ -113,79 +174,21 @@
 3. 編譯完成後，在 Workflow 執行記錄底部的 **Artifacts** 處下載 `winmm-dll`。
 4. 推送版本標籤（例如 `git tag v1.0.0` 並推送），Actions 會自動為你創建 GitHub Release 並上傳編譯好的 `winmm.dll`。
 
-#### 方式 B：本地編譯（需安裝編譯器）
-- **Zig 編譯器**：如果你有 Zig 編譯器，可以直接執行 `CoopModEnabler/build_zig.bat`。它會利用 Zig CC 自動交叉編譯生成 32 位 DLL。
+#### 方式 B：本地編譯（需安装編譯器）
+- **Zig 編譯器**：如果你有 Zig 編譯器，可以直接執行 `CoopModEnabler/build_zig.bat`。它会利用 Zig CC 自動交叉編譯生成 32 位 DLL。
 - **Visual Studio**：如果安裝了 VS（包含 C++ 桌面開發組件），在 **x86 Native Tools Command Prompt** 終端中執行 `CoopModEnabler/build.bat`。
 
 ### 🧹 倉庫維護規範
 
 1. **導出函數一致性**：若修改了代理 DLL 的導出函數，須同步更新 `winmm.def` 檔案，確保 178 個導出函數無縫轉發，避免遊戲啟動崩潰。
-2. **建置驗證**：提交代碼前，請使用 `build_zig.bat` 或 `build.bat` 在本地進行 32 位（x86）編譯測試，確保無編譯錯誤。
+2. **建置驗證**：提交代碼前，请使用 `build_zig.bat` 或 `build.bat` 在本地進行 32 位（x86）編譯測試，確保無編譯错误。
 3. **記憶體位址模式匹配**：若遊戲更新導致補丁失效，需使用特徵碼掃描（Pattern Scanning）工具重新定位限制聯機和遙測的記憶體位址特徵，切勿寫死絕對記憶體位址。
 4. **版本發布**：若需要發布新版本，請在本地打上版本 Tag 並推送至 GitHub（例如 `git tag v1.x.x && git push origin v1.x.x`），Actions 會自動建立 Release 並上傳產物。
 
 ### ❗ 已知問題
 1. 經測試 **EID** 可在解除連線 Mod 限制的情況下正常使用
-2. 基於遊戲連線本身的特性，解除連線 Mod 限制後使用其他模組極有機會發生崩潰，屬正常情況
-
----
-
-## English
-
-A proxy DLL hijacking solution for *The Binding of Isaac* (AB+ & REP+ versions) to enable mods in online co-op mode without hooks or modifying the main game executable.
-
-### 📦 Requirements
-
-This mod supports the **Afterbirth+ (AB+)** and **Repentance+ (REP+)** version of the game. The required DLC configurations are:
-- **For Repentance+ (REP+)**: Requires all 4 DLCs installed and enabled:
-  1. *The Binding of Isaac: Afterbirth*
-  2. *The Binding of Isaac: Afterbirth+* (AB+)
-  3. *The Binding of Isaac: Repentance* (REP)
-  4. *The Binding of Isaac: Repentance+* (REP+)
-
-### 💡 How It Works
-
-This project utilizes **Proxy DLL / DLL Hijacking** technique:
-
-1. **Automatic Loading**: Leverages the Windows DLL search order by placing `winmm.dll` in the game directory. The game will prioritize loading this local DLL over the system one at startup.
-2. **Seamless Forwarding**: Internally proxies and forwards all 178 exported functions of `winmm.dll` to the real system library (`C:\Windows\System32\winmm.dll`) using zero-overhead naked assembly jump (`naked asm`) trampolines, ensuring all game audio and multimedia features remain intact.
-3. **Memory Hot-patching**: On DLL initialization (`DllMain`), the proxy scans the `.text` segment of `isaac-ng.exe` in memory:
-   - **Bypassing Co-op Mod Restriction**: Searches for the bytecode sequence that restricts mod usage in online matches, replacing the three conditional jump (`JE`) instructions with `NOP`s, forcing the game to bypass mod checks.
-   - **Disabling Analytics**: Replaces the telemetry/analytics function entry instruction with a `RET`, skipping the data collection process.
-
-Since the modifications only occur in the process memory, **the original game file `isaac-ng.exe` remains untouched**. It doesn't trigger Steam file integrity checks and generally survives game updates.
-
-### 🚀 Installation and Usage
-
-1. **Get the DLL**: Download the pre-built 32-bit `winmm.dll` from the **Actions** artifacts or the **Releases** page of this repository (Make sure it is x86/32-bit, as Isaac is a 32-bit application).
-2. **Deploy**: Copy `winmm.dll` into your game directory (next to `isaac-ng.exe`).
-3. **Run**: Launch the game normally via Steam. The mod restriction is now automatically lifted.
-4. **Uninstall**: Delete `winmm.dll` from your game directory. The game will revert to vanilla instantly with no backup files needed.
-
-### 🛠️ Compilation and Building
-
-The project is configured for **GitHub Actions** out of the box, meaning you don't need to configure a local C/C++ 32-bit compiler toolchain.
-
-#### Method A: Build via GitHub Actions (Recommended)
-1. Push this repository to your personal GitHub account.
-2. The compilation workflow will trigger automatically on `windows-latest` using CMake and MSVC to produce the 32-bit x86 `winmm.dll`.
-3. Once completed, you can download `winmm-dll` from the **Artifacts** section at the bottom of the workflow run summary.
-4. Pushing a tag (e.g. `git tag v1.0.0` followed by `git push origin v1.0.0`) will automatically compile and release the DLL on GitHub Releases.
-
-#### Method B: Local Build (Compiler required)
-- **Zig Compiler**: If you have Zig installed, run `CoopModEnabler/build_zig.bat`. It will invoke `zig cc` to cross-compile the 32-bit DLL.
-- **Visual Studio**: If you have VS with C++ Desktop tools, run `CoopModEnabler/build.bat` from an **x86 Native Tools Command Prompt**.
-
-### 🧹 Repository Maintenance
-
-1. **Export Function Consistency**: If you modify the proxy DLL's exports, you must update the `winmm.def` file accordingly to ensure all 178 exported functions are seamlessly forwarded. This prevents the game from crashing on startup.
-2. **Build Verification**: Before committing code, run `build_zig.bat` or `build.bat` to perform a local 32-bit (x86) test compilation and check for errors.
-3. **Memory Pattern Matching**: If a game update breaks the patches, use pattern scanning to relocate the online-restriction and telemetry bytecode sequences in memory. Do not hardcode absolute memory addresses.
-4. **Releasing Versions**: To release a new version, create and push a git tag (e.g., `git tag v1.x.x && git push origin v1.x.x`). GitHub Actions will automatically create a Release and upload the built artifacts.
-
-### ❗ Known Issues
-1. It has been tested that **EID** works normally when the online mod restrictions are lifted.
-2. Due to the nature of online gameplay, using other mods while the online mod restrictions are lifted has a high chance of causing crashes, which is considered normal.
+2. 基於遊戲連線本身的特性，解除連線 Mod 限制後使用其他模組有機會發生崩潰，屬正常情況
+3. **相容性說明**：本模組的作用僅為繞過禁用線上聯機 Mod 的限制，不對其他 Mod 本身是否能在線上聯機模式中正常遊玩及相容作任何保證。
 
 ---
 
