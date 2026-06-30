@@ -1,13 +1,19 @@
 <h1 align="center">Isaac Coop Mod Enabler</h1>
 
 <p align="center">
-  <a href="#english">English</a> • 
-  <a href="#简体中文">简体中文</a> • 
-  <a href="#繁體中文">繁體中文</a>
+  <b>An effortless proxy DLL hijacking solution to enable online co-op mods for The Binding of Isaac (AB+ & REP+).</b>
 </p>
 
 <p align="center">
-  <b>An effortless proxy DLL hijacking solution to enable online co-op mods for Isaac (AB+ & REP+).</b>
+  <img src="https://img.shields.io/badge/Games-The%20Binding%20of%20Isaac-c0392b" alt="Games" />
+  <img src="https://img.shields.io/badge/Mod_Support-AB%2B%20%26%20REP%2B%20(4%20DLCs)-2980b9" alt="Support" />
+  <img src="https://img.shields.io/badge/License-GPL%203.0-27ae60" alt="License" />
+</p>
+
+<p align="center">
+  <a href="#english">English</a> • 
+  <a href="#简体中文">简体中文</a> • 
+  <a href="#繁體中文">繁體中文</a>
 </p>
 
 ---
